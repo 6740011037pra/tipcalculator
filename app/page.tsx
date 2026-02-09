@@ -9,12 +9,16 @@ export default function Home() {
 
   const tipPercent = 0.05;
 
-  const calculate = () => {
-    if (!tipSelected) return;
-    const tip = bill * tipPercent;
-    setTipTotal(tip);
-    setBillTotal(bill + tip);
-  };
+const calculate = () => {
+  if (!tipSelected || bill === "") return;
+
+  const amount = Number(bill);
+  const tip = amount * 0.05;
+
+  setTipTotal(tip);
+  setBillTotal(amount + tip);
+};
+
 
   return (
     <main className="min-h-screen flex items-center justify-center p-6
@@ -34,13 +38,13 @@ export default function Home() {
           <label className="text-slate-600">Bill Amount</label>
           <input
             type="number"
-            value={bill === 0 ? "" : bill}
-            onFocus={() => bill === 100 && setBill("")}
-            onChange={(e) => setBill(Number(e.target.value) || 0)}
-            placeholder="Enter bill"
-            className="w-full bg-white rounded-xl px-5 py-4 text-2xl 
-                       border shadow-sm focus:ring-2 focus:ring-purple-300 outline-none"
+            value={bill}
+            onChange={(e) => setBill(e.target.value)}
+            placeholder="Enter bill amount"
+            className="w-full bg-white rounded-xl px-5 py-4 text-2xl border shadow-sm
+             focus:ring-2 focus:ring-purple-300 outline-none"
           />
+
         </div>
 
         {/* TIP */}
