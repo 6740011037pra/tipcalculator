@@ -1,65 +1,90 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 
 export default function Home() {
+  const [bill, setBill] = useState(100);
+  const [tipSelected, setTipSelected] = useState(false);
+  const [tipTotal, setTipTotal] = useState(0);
+  const [billTotal, setBillTotal] = useState(0);
+
+  const tipPercent = 0.05;
+
+  const calculate = () => {
+    if (!tipSelected) return;
+    const tip = bill * tipPercent;
+    setTipTotal(tip);
+    setBillTotal(bill + tip);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen flex items-center justify-center p-6
+      bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100">
+
+      {/* COLORED CARD */}
+      <div className="bg-gradient-to-br from-white to-slate-100 
+                      border border-white/60 rounded-3xl shadow-2xl 
+                      max-w-2xl w-full p-10 space-y-10">
+
+        <h1 className="text-3xl font-semibold text-center text-slate-800">
+          Tip Calculator
+        </h1>
+
+        {/* BILL */}
+        <div className="space-y-3">
+          <label className="text-slate-600">Bill Amount</label>
+          <input
+            type="number"
+            value={bill === 0 ? "" : bill}
+            onFocus={() => bill === 100 && setBill("")}
+            onChange={(e) => setBill(Number(e.target.value) || 0)}
+            placeholder="Enter bill"
+            className="w-full bg-white rounded-xl px-5 py-4 text-2xl 
+                       border shadow-sm focus:ring-2 focus:ring-purple-300 outline-none"
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* TIP */}
+        <div className="space-y-3">
+          <p className="text-slate-600">Select Tip</p>
+
+          <button
+            onClick={() => setTipSelected(!tipSelected)}
+            className={`px-8 py-4 rounded-xl text-xl font-medium transition-all
+              ${
+                tipSelected
+                  ? "bg-purple-400 text-white shadow-lg scale-105"
+                  : "bg-purple-100 hover:bg-purple-200"
+              }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            5%
+          </button>
         </div>
-      </main>
-    </div>
+
+        {/* RESULTS */}
+        <div className="grid grid-cols-2 gap-6 bg-white/70 rounded-2xl p-6">
+
+          <div className="text-center space-y-2">
+            <p className="text-slate-500">Tip Total</p>
+            <p className="text-3xl font-semibold">{tipTotal}</p>
+          </div>
+
+          <div className="text-center space-y-2">
+            <p className="text-slate-500">Bill Total</p>
+            <p className="text-4xl font-bold">{billTotal}</p>
+          </div>
+
+        </div>
+
+        {/* BUTTON */}
+        <button
+          onClick={calculate}
+          className="w-full bg-slate-800 text-white py-4 rounded-2xl 
+                     text-xl hover:bg-slate-700 transition"
+        >
+          Calculate
+        </button>
+
+      </div>
+    </main>
   );
 }
