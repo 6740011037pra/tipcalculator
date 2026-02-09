@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [bill, setBill] = useState(100);
+  const [bill, setBill] = useState("");
   const [tipSelected, setTipSelected] = useState(false);
   const [tipTotal, setTipTotal] = useState(0);
   const [billTotal, setBillTotal] = useState(0);
